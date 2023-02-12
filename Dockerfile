@@ -23,6 +23,16 @@ COPY ./sqlx-data.json ./sqlx-data.json
 RUN rm ./target/release/deps/cicd_project*
 RUN cargo build --release
 
+
+FROM build as test
+
+# run linter
+RUN cargo clippy --all-targets --all-features -- -D warnings
+
+# run tests
+CMD ["cargo", "test" "--release"]
+
+
 # our final base
 FROM debian:buster-slim
 
