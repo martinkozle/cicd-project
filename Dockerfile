@@ -26,11 +26,10 @@ RUN cargo build --release
 
 FROM build as test
 
-# run linter
-RUN cargo clippy --all-targets --all-features -- -D warnings
+RUN rustup component add clippy
 
-# run tests
-CMD ["cargo", "test" "--release"]
+# run linter and tests with shell form
+CMD cargo clippy --all-targets --all-features -- -D warnings && cargo test --release
 
 
 # our final base
