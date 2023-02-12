@@ -1,0 +1,13 @@
+env:
+  POSTGRES_PASSWORD: cicd
+  POSTGRES_USER: postgres
+  POSTGRES_DB: cicd-project
+
+image:
+  repository: martinkozle/cicd-project
+  tag: latest
+  pullPolicy: Always
+
+service:
+  name: cicd-project
+  port: 8080

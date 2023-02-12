@@ -1,0 +1,42 @@
+{
+  "db": "PostgreSQL",
+  "6ac147cec32f0628665bd0033d9160f57b94e4b27cdc18cab8e701b41c535d86": {
+    "describe": {
+      "columns": [],
+      "nullable": [],
+      "parameters": {
+        "Left": [
+          "Varchar",
+          "Varchar"
+        ]
+      }
+    },
+    "query": "INSERT INTO variables (name, value) VALUES ($1, $2)\n         ON CONFLICT (name) DO UPDATE SET value = $2"
+  },
+  "b0702dc693558fa1d39efa696ca5554c0d9dc587d3aa68a126cc9d0000cd9d22": {
+    "describe": {
+      "columns": [
+        {
+          "name": "name",
+          "ordinal": 0,
+          "type_info": "Varchar"
+        },
+        {
+          "name": "value",
+          "ordinal": 1,
+          "type_info": "Varchar"
+        }
+      ],
+      "nullable": [
+        false,
+        false
+      ],
+      "parameters": {
+        "Left": [
+          "Text"
+        ]
+      }
+    },
+    "query": "SELECT name, value FROM variables WHERE name = $1"
+  }
+}

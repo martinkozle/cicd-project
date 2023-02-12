@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-db
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-db
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ template "cicd-project.fullname" . }}-db
+    spec:
+      containers:
+      - name: {{ template "cicd-project.fullname" . }}-db
+        image: postgres:15
+        env:
+        - name: POSTGRES_PASSWORD
+          value: {{ .Values.db.env.POSTGRES_PASSWORD }}
+        - name: POSTGRES_USER
+          value: {{ .Values.db.env.POSTGRES_USER }}
+        - name: POSTGRES_DB
+          value: {{ .Values.db.env.POSTGRES_DB }}
+        ports:
+        - containerPort: 5432
+        volumeMounts:
+        - name: db-data
+          mountPath: /var/lib/postgresql/data
+      volumes:
+      - name: db-data
+        persistentVolumeClaim:
+          claimName: {{ template "cicd-project.fullname" . }}-db-pvc

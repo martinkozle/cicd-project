@@ -1,0 +1,11 @@
+[package]
+name = "cicd-project"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+actix-web = "4.3.0"
+dotenvy = "0.15.6"
+env_logger = "0.10.0"
+serde = "1.0.152"
+sqlx = {version = "0.6.2", features = ["postgres", "macros", "runtime-actix-rustls", "offline", "migrate"]}

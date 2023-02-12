@@ -1,0 +1,5 @@
+CREATE TABLE IF NOT EXISTS variables (
+    name VARCHAR(255) NOT NULL,
+    value VARCHAR(255) NOT NULL,
+    PRIMARY KEY (name)
+);
