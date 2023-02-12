@@ -30,3 +30,9 @@ jobs:
       - name: Publish
         if: github.event_name == 'push'
         run: docker push ${{ github.repository }}
+      - name: Build cicd-project-sqlx
+        if: github.event_name == 'push'
+        run: docker build -t ${{ github.repository }}-sqlx -f Dockerfile.sqlx .
+      - name: Publish cicd-project-sqlx
+        if: github.event_name == 'push'
+        run: docker push ${{ github.repository }}-sqlx
