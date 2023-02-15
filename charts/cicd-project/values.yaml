@@ -6,7 +6,6 @@ env:
 image:
   repository: martinkozle/cicd-project
   tag: latest
-  pullPolicy: Always
 
 service:
   name: cicd-project

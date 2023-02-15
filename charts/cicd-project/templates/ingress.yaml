@@ -1,0 +1,13 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: {{ template "cicd-project.fullname" . }}-ingressroute
+spec:
+  entryPoints:
+  - web
+  routes:
+  - match: Host(`localhost`)
+    kind: Rule
+    services:
+    - name: {{ template "cicd-project.fullname" . }}-web
+      port: http

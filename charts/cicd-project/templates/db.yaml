@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-db
+  name: {{ template "cicd-project.fullname" . }}-db
 spec:
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-db
+      app: {{ template "cicd-project.fullname" . }}-db
   replicas: 1
   template:
     metadata:
@@ -17,11 +17,11 @@ spec:
         image: postgres:15
         env:
         - name: POSTGRES_PASSWORD
-          value: {{ .Values.db.env.POSTGRES_PASSWORD }}
+          value: {{ .Values.env.POSTGRES_PASSWORD }}
         - name: POSTGRES_USER
-          value: {{ .Values.db.env.POSTGRES_USER }}
+          value: {{ .Values.env.POSTGRES_USER }}
         - name: POSTGRES_DB
-          value: {{ .Values.db.env.POSTGRES_DB }}
+          value: {{ .Values.env.POSTGRES_DB }}
         ports:
         - containerPort: 5432
         volumeMounts:

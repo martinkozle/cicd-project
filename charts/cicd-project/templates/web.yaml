@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "cicd-project.fullname" . }}-web
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: {{ template "cicd-project.fullname" . }}-web
+  template:
+    metadata:
+      labels:
+        app: {{ template "cicd-project.fullname" . }}-web
+    spec:
+      initContainers:
+        - name: check-db-ready
+          image: postgres:15-alpine
+          command: ['sh', '-c', 
+            'until pg_isready -h {{ template "cicd-project.fullname" . }}-db -p 5432; 
+            do echo waiting for database; sleep 2; done;']
+        - name: migrate
+          image: martinkozle/cicd-project-sqlx:latest
+          imagePullPolicy: Always
+          command: ["sqlx", "migrate", "run"]
+          env:
+          - name: DATABASE_URL
+            value: {{ template "cicd-project.databaseUrl" . }}
+      containers:
+        - name: web
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: DATABASE_URL
+              value: {{ template "cicd-project.databaseUrl" . }}
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10

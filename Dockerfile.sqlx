@@ -5,4 +5,6 @@ RUN cargo install sqlx-cli --no-default-features --features native-tls,postgres
 
 FROM debian:bullseye-slim
 
+COPY ./migrations /migrations
+
 COPY --from=build /usr/local/cargo/bin/sqlx /usr/local/bin/sqlx
